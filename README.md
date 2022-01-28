@@ -45,7 +45,9 @@ RPi connect to DUT with system
 
 ## Note
 
-showing the uuids information when connect to DUT.
+### pre-write
+
+previous showing the uuids information when connect to DUT.
 
 you can take the uuids information to write into the `ProjectUUID.py` file. 
 
@@ -53,15 +55,20 @@ you can take the uuids information to write into the `ProjectUUID.py` file.
 
      def device1(self):
      
-        self.service = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-        
-        self.chara1 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-        
-        self.chara2 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-        
+        self.service = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'         
+        self.chara1 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'         
+        self.chara2 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'         
         self.chara3 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
         
 `
+
+### communication format
+
+the format of communication :
+------ASCII------
+- b0 p [project]
+- b0 c [macaddress]
+- b0 w [characteristic][data]
 
 
 ## REFERENCES
