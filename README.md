@@ -1,7 +1,6 @@
 # RPi-GATT
 If you have problem about testing your deivce's ble function. the project will Help you test your device that contains BLE function.
 
-
 ## Prerequisites
 
 These have some tools you need to pick up.
@@ -17,9 +16,12 @@ the instruction
 
 ## Installation
 in your Raspberry
-`sudo pip install gatt`
 
+`sudo pip3 install gatt`
+`sudo apt-get install python3-dbus`
 
+## Usage
+`python3 main.py`
 
 
 ## REFERENCES
