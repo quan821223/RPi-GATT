@@ -23,6 +23,8 @@ in your Raspberry
 
 `sudo apt-get install python3-dbus`
 
+`sudo apt-get install blueman`
+
 ## Usage
 ### pre-condition
 
