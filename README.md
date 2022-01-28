@@ -66,9 +66,12 @@ you can take the uuids information to write into the `ProjectUUID.py` file.
 
 the format of communication :
 ------ASCII------
-- b0 p [project]
-- b0 c [macaddress]
-- b0 w [characteristic][data]
+- choose your project uuid
+       `b0 p [project]`
+- connect to yourdevice
+      `b0 c [macaddress]`
+- enter data to characteristic
+     `b0 w [characteristic][data]`
 
 
 ## REFERENCES
