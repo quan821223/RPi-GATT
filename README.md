@@ -15,7 +15,7 @@ These have some tools you need to pick up.
 
 - cable *1
 
-![RPiinstruction](https://user-images.githubusercontent.com/22633988/151592319-c73ab32f-a2e0-4fb2-b2f8-00e3fbc337cb.png)
+![圖片1](https://user-images.githubusercontent.com/22633988/151592999-24036417-2da4-4710-91cf-d2caafe2976b.png)
 
 
 ## Installation
