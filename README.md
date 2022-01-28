@@ -7,7 +7,9 @@ These have some tools you need to pick up.
 
 ### HW
 Raspberry Pi 3/4 *1
+
 Serial devices *2
+
 cable *1
 
 the instruction
@@ -18,6 +20,7 @@ the instruction
 in your Raspberry
 
 `sudo pip3 install gatt`
+
 `sudo apt-get install python3-dbus`
 
 ## Usage
