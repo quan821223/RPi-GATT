@@ -28,7 +28,7 @@ in your Raspberry
 ## Usage
 ### pre-condition
 
-First time you need to connect your DUT by raspberryPi **bluetoothctl**
+First time you need to connect your DUT by raspberryPi **bluetoothctl** 
 These instructions
 **step :**
 RPi connect to DUT with system
