@@ -25,7 +25,7 @@ in your Raspberry
 
 `sudo apt-get install blueman`
 
-and please following [gatt-python](https://github.com/getsenic/gatt-python).[^1][^note]
+and please following [gatt-python](https://github.com/getsenic/gatt-python).[^1]
 
 [^1]: My reference.
 
