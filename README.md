@@ -3,17 +3,17 @@ If you have problem about testing your deivce's ble function. the project will H
 
 A simple tool project with serial-tool communication using your Raspberry PI and python. 
 the tool applied gatt and serial interface to communicate with your device.
----
+
 ## Prerequisites
 
 These have some tools you need to pick up.
 
 ### HW
-Raspberry Pi 3/4 *1
+- Raspberry Pi 3/4 *1
 
-Serial devices *2
+- Serial devices *2
 
-cable *1
+- cable *1
 
 ![RPiinstruction](https://user-images.githubusercontent.com/22633988/151592319-c73ab32f-a2e0-4fb2-b2f8-00e3fbc337cb.png)
 
