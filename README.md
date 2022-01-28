@@ -12,7 +12,7 @@ Serial devices *2
 
 cable *1
 
-the instruction
+
 ![圖片1](https://user-images.githubusercontent.com/22633988/151558605-51e352b3-ac64-432d-9b29-118bb4ec9f77.png)
 
 
@@ -29,7 +29,7 @@ in your Raspberry
 ### pre-condition
 
 First time you need to connect your DUT by raspberryPi **bluetoothctl**
-
+These instructions
 **step :**
 RPi connect to DUT with system
 1. open terminal
