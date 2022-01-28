@@ -80,5 +80,5 @@ the format of communication :
 
 
 ## REFERENCES
-the project I am reference [gatt-python](https://github.com/getsenic/gatt-python) there contains example code and GATT SDK.
+the project I reference [gatt-python](https://github.com/getsenic/gatt-python) there contains example code and GATT SDK.
 
