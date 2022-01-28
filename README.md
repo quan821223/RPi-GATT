@@ -25,10 +25,15 @@ in your Raspberry
 
 `sudo apt-get install blueman`
 
+and please following [gatt-python](https://github.com/getsenic/gatt-python).[^1][^note]
+
+[^1]: My reference.
+
 ## Usage
 ### pre-condition
 
 First time you need to connect your DUT by raspberryPi **bluetoothctl** 
+
 These instructions
 **step :**
 RPi connect to DUT with system
@@ -75,5 +80,5 @@ the format of communication :
 
 
 ## REFERENCES
-the project I am reference https://github.com/getsenic/gatt-python there contains example code and GATT SDK.
+the project I am reference [gatt-python](https://github.com/getsenic/gatt-python) there contains example code and GATT SDK.
 
