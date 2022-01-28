@@ -16,7 +16,8 @@ the instruction
 
 
 ## Installation
-
+in your Raspberry
+> sudo pip install gatt
 
 
 
