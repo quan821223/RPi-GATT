@@ -24,7 +24,22 @@ in your Raspberry
 `sudo apt-get install python3-dbus`
 
 ## Usage
-`python3 main.py`
+### pre-condition
+
+First time you need to connect your DUT by raspberryPi ** bluetoothctl **
+
+** step :**
+
+1. open terminal
+2. `sudo bluetoothctl`
+3. `scan on`
+4. `scan off`
+5. `connect [MACaddress]`
+6. [enter passkey] or not
+7. reboot your system and devices.
+8. open this project 
+9. cd RPi-GATT
+10. `python3 main.py`
 
 
 ## REFERENCES
