@@ -26,9 +26,9 @@ in your Raspberry
 ## Usage
 ### pre-condition
 
-First time you need to connect your DUT by raspberryPi ** bluetoothctl **
+First time you need to connect your DUT by raspberryPi **bluetoothctl**
 
-** step :**
+**step :**
 
 1. open terminal
 2. `sudo bluetoothctl`
