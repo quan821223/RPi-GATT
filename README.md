@@ -50,11 +50,17 @@ showing the uuids information when connect to DUT.
 you can take the uuids information to write into the `ProjectUUID.py` file. 
 
 `
+
      def device1(self):
+     
         self.service = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        
         self.chara1 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        
         self.chara2 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        
         self.chara3 = '0000xxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+        
 `
 
 
