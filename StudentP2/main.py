@@ -141,12 +141,12 @@ if __name__ == '__main__':
                 if(comter.IsChangeUUID):
                     projectuuids = comter.getprojectuuids
                     nowTime = datetime.datetime.now()
-                    print('[' + str(nowTime) + '] ' + "專案目前取用的uuids")
+                    #print('[' + str(nowTime) + '] ' + "專案目前取用的uuids")
 
-                    print(projectuuids.service)
-                    print(projectuuids.chara1)
-                    print(projectuuids.chara2)
-                    print(projectuuids.chara3)
+                    #print(projectuuids.service)
+                    #print(projectuuids.chara1)
+                    #print(projectuuids.chara2)
+                    #print(projectuuids.chara3)
                     comter.IsChangeUUID=False
 
                 if (comter.IsConnectRequir):
@@ -165,7 +165,7 @@ if __name__ == '__main__':
                             for eachData in comter.databuffer:
                                 if(not IsDEBUGTEST ) and hasattr( bleDevices.characteristic2, "write_value"):
                                     bleDevices.characteristic2.write_value(eachData)
-                                time.sleep(.05)
+                                time.sleep(.15)
                                 nowTime = datetime.datetime.now()
 
                             comter.databuffer = []
@@ -173,7 +173,7 @@ if __name__ == '__main__':
                             for eachData in comter.databuffer:
                                 if (not IsDEBUGTEST)and hasattr( bleDevices.characteristic3, "write_value"):
                                     bleDevices.characteristic3.write_value(eachData)
-                                time.sleep(.05)
+                                time.sleep(.15)
                                 nowTime = datetime.datetime.now()
 
                             comter.databuffer = []
