@@ -1,8 +1,9 @@
 from ObserverClass import Register, UnRegister
+from BLEmodule import AnyDeviceManager, AnyDevice
 from ProjectUUID import projectUUID
 import datetime
 import math
-
+import time
 class Serilcenter(UnRegister):
     """數據中心"""
     def __init__(self):
@@ -45,15 +46,12 @@ class Serilcenter(UnRegister):
     def getSendCMD(self):
         if(self.__CMDtype.lower() == 'w'):
             self.__getsendCMD = self.__getdata.strip(b'\r\n').decode('ascii').strip().split(' ',3)[3]
-            cmd_value = bytearray.fromhex(  self.__getsendCMD)
         return   self.__getsendCMD
 
     def setgetdata(self, datafromcom):
         self.__getdata = datafromcom
         strdata = self.__getdata.strip(b'\r\n').decode('ascii')
-        nowTime = datetime.datetime.now()
-        print('[' + str(nowTime) + '] ' + "get byte datas：" + strdata  )
-
+        print( "get byte datas：" + strdata )
         self.notifyObservers()
 
     def projectUUIDs(self):
@@ -76,20 +74,31 @@ class Serilcenter(UnRegister):
         for idx in range(0, len(l), n):
             yield l[idx:idx + n]
 
-    def modityUartCMD(self,   msg):
+    def modityUartCMD(self,  uartdevice, msg):
+
+        nowTime = datetime.datetime.now()
+        print('[' +  str(nowTime) + '] ' + msg)
+
         strsplit = msg.split(' ')
         n = math.ceil(len(strsplit) / 11)
+
         if (n == 1):
+
             cmd_value = bytearray.fromhex(msg)
+            self.uartinterface.write(bytes.fromhex('\r\n'.join(['%02X ' % b for b in cmd_value])))
             self.databuffer.append(cmd_value)
+
 
         elif n > 1:
             result = list(Serilcenter.split_list(msg, 3 * 11))
+      
             for var in result:
                 cmd_value = bytearray.fromhex(var)
                 self.databuffer.append(cmd_value)
-                # self.uartinterface.write(bytes.fromhex('\r\n'.join(['%02X ' % b for b in cmd_value])))
-
+                self.uartinterface.write(cmd_value)
+#                 self.databuffer.append(cmd_value)
+#                 self.uartinterface.write(bytes.fromhex('\r\n'.join(['%02X ' % b for b in cmd_value])))
+                time.sleep(.17)
 
 class ChangeProject(Register):
     """
@@ -98,16 +107,13 @@ class ChangeProject(Register):
     def update(self, Register, object):
 
         """ head/ type/ project. """
-
+        Register.IsChangeUUID = True
         arrPCcmd = Register.getStrData()
 
         if isinstance(Register, Serilcenter)  and Register.getCMDTypeStrData().lower() == "p":
-            Register.IsChangeUUID = True
-            nowTime = datetime.datetime.now()
             if(arrPCcmd[2] == 'cxr6'):
                 Register.projectUUIDs().cxr6()
-                print('[' + str(nowTime) + '] ' )
-
+                print("更改專案為cxr6")
                 print( Register.projectUUIDs().service)
                 print( Register.projectUUIDs().chara1)
                 print( Register.projectUUIDs().chara2)
@@ -115,7 +121,7 @@ class ChangeProject(Register):
 
             elif(arrPCcmd[2] == 'lite'):
                 Register.projectUUIDs().cxrlift()
-                print('[' + str(nowTime) + '] ' )
+                print("更改專案為lite")
                 print( Register.projectUUIDs().service)
                 print( Register.projectUUIDs().chara1)
                 print( Register.projectUUIDs().chara2)
@@ -130,28 +136,37 @@ class SendtoChara(Register):
         """ head/ type/ characteristic/data. """
         if isinstance(Register, Serilcenter) and Register.getCMDTypeStrData().lower() == "w":
             Register.IsSendData = True
-            nowTime = datetime.datetime.now()
-            print('[' + str(nowTime) + '] ' + "接收的數據")
-
+            print("傳送數據")
 
             #send data to characteristic 2
+            # if (Register.getfeaturechannel() == 'f2') and hasattr(   Register.bleDevices.characteristic2, "write_value"):
             if (Register.getfeaturechannel() == 'f2') :
 
                 try:
                     Register.Ischara2 = True
-                    Register.modityUartCMD( Register.getSendCMD())
+                    Register.modityUartCMD(Register.uartcom(), Register.getSendCMD())
 
                 except SystemExit:
                     print('send error !')
             # send data to characteristic 3
+            # if (Register.getfeaturechannel() == 'f3') and hasattr(   Register.bleDevices.characteristic2, "write_value"):
             if (Register.getfeaturechannel() == 'f3') :
                 try:
                     Register.Ischara3 = True
-                    Register.modityUartCMD( Register.getSendCMD())
+                    Register.modityUartCMD( Register.uartcom(), Register.getSendCMD())
 
                 except SystemExit:
                     print('send error !')
 
+
+# class ReadfromChara(Register):
+#     """
+#     傳該模式用於傳輸
+#     """
+#     def update(self, Register, object):
+#
+#         if isinstance(Register, Serilcenter) and Register.getCMDTypeStrData().lower() == "r":
+#             print("讀取數據")
 
 class Connecttodevice(Register):
     """
@@ -163,14 +178,11 @@ class Connecttodevice(Register):
 
             
             arrPCcmd = Register.getStrData()
-
             if(len(arrPCcmd) >= 3):
                 Register.IsConnectRequir = True
-                nowTime = datetime.datetime.now()
-
-                nowTime = datetime.datetime.now()
-                print('[' +  str(nowTime) + '] ' + "與待測物連線")
-                print('[' +  str(nowTime) + '] ' + 'connect to devices..., and the device macaddress is ' + arrPCcmd[2].strip() + '\n')
+                print("與待測物連線")
+                nowTime = datetime.datetime.now()  # 取得現在時間
+                print('[' +  str(nowTime) + '] ' +  arrPCcmd[2].strip() )
                 Register.MACaddress = arrPCcmd[2].strip()
 
 

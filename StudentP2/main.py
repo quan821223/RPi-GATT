@@ -14,6 +14,20 @@ the format of communication :
 - b0 c [macaddress]
 - b0 w [characteristic][data]
 '''
+try:
+    import dbus
+    import dbus.mainloop.glib
+except ImportError:
+    import sys
+    print("Module 'dbus' not found")
+    print("Please run: sudo apt-get install python3-dbus")
+    print("See also: https://github.com/getsenic/gatt-python#installing-gatt-sdk-for-python")
+    sys.exit(1)
+
+import re
+from gi.repository import GObject
+
+
 
 from setseril import Serialcom
 from ObserverOper import Serilcenter, ChangeProject, SendtoChara, Connecttodevice
@@ -28,12 +42,15 @@ class AnyDeviceManager(gatt.DeviceManager):
         print("Discovered [%s] %s" % (device.mac_address, device.alias()))
 
     def loop_start(self):
-        self._thread = threading.Thread(target=self.run)
-        self._thread.daemon = True
+        self._thread = threading.Thread(target=self.run, daemon = True)
+#         self._thread.daemon = True
+        self._thread.setDaemon(True)
         self._thread.start()
 
     def loop_stop(self):
         self.stop()
+        
+
 class AnyDevice(gatt.Device):
     def __init__(self, mac_address, manager, uartport):
 
@@ -92,12 +109,24 @@ class AnyDevice(gatt.Device):
         print("[%s] wr err %s" % (self.mac_address, error))
 
     def characteristic_value_updated(self, characteristic, value):
-        nowTime = datetime.datetime.now()
-        print('[' + str(nowTime) + '] '+value)
+        hexstr = ''.join(['%02x' % b + ' 'for b in value])     
+        display_msg_table(hexstr, 'r')        
         myUart.write(value)
-        # Seriset.Uart.write(value)
         time.sleep(0.1)
 
+def display_msg_table(msg, type_msg = ''):
+    
+    nowTime = datetime.datetime.now()
+    if type_msg =='r' or type_msg =='R':    
+        print('[%s][R] %s' %(nowTime, str(msg)))
+    elif type_msg =='s'or type_msg =='S':
+        print('[%s][S] %s' %(nowTime, str(msg)))
+    elif type_msg =='':
+        print('[%s] %s' %(nowTime, str(msg)))
+    else:
+        print('[%s][%s] %s' %( nowTime, type_msg, str(msg)))
+        
+        
 if __name__ == '__main__':
 
     comter = Serilcenter()
@@ -119,12 +148,12 @@ if __name__ == '__main__':
     '''
     testing mode
     '''
-    IsDEBUGTEST = True
+    IsDEBUGTEST = False
     comter.debugmode = IsDEBUGTEST
 
     if(not IsDEBUGTEST):
         manager = AnyDeviceManager(adapter_name='hci0')
-        manager.loop_start()
+#         manager.loop_start()
 
     while (True):
 
@@ -140,13 +169,13 @@ if __name__ == '__main__':
 
                 if(comter.IsChangeUUID):
                     projectuuids = comter.getprojectuuids
-                    nowTime = datetime.datetime.now()
-                    #print('[' + str(nowTime) + '] ' + "專案目前取用的uuids")
-
-                    #print(projectuuids.service)
-                    #print(projectuuids.chara1)
-                    #print(projectuuids.chara2)
-                    #print(projectuuids.chara3)
+#                     nowTime = datetime.datetime.now()
+#                     print('[' +  str(nowTime) + '] \n')
+#                     print('專案目前取用的uuids')
+#                     print(projectuuids.service)
+#                     print(projectuuids.chara1)
+#                     print(projectuuids.chara2)
+#                     print(projectuuids.chara3)
                     comter.IsChangeUUID=False
 
                 if (comter.IsConnectRequir):
@@ -158,32 +187,37 @@ if __name__ == '__main__':
                         time.sleep(1)
                         ''' Don't remove this CMD'''
                         manager.loop_start()
+#                         manager.run()
                         comter.IsConnectRequir = False
 
                 if(comter.IsSendData):
-                    if( comter.Ischara2 ) :
+                    if(comter.Ischara2):
                             for eachData in comter.databuffer:
-                                if(not IsDEBUGTEST ) and hasattr( bleDevices.characteristic2, "write_value"):
+                                if(not IsDEBUGTEST):
                                     bleDevices.characteristic2.write_value(eachData)
-                                time.sleep(.15)
+                                time.sleep(.17)
                                 nowTime = datetime.datetime.now()
+                                display_msg_table(''.join(['%02x' % b + ' 'for b in eachData])  , 'f2')   
+                                #print('['+ str(nowTime) + '] ' + str(eachData))
 
-                            comter.databuffer = []
-                    if (comter.Ischara3 ):
+
+
+                    if (comter.Ischara3):
                             for eachData in comter.databuffer:
-                                if (not IsDEBUGTEST)and hasattr( bleDevices.characteristic3, "write_value"):
+                                if (not IsDEBUGTEST):
                                     bleDevices.characteristic3.write_value(eachData)
-                                time.sleep(.15)
+                                time.sleep(.17)
                                 nowTime = datetime.datetime.now()
+                                display_msg_table(''.join(['%02x' % b + ' 'for b in eachData]), 'f3')   
+                                #print('['+ str(nowTime) + '] ' + str(eachData))
 
-                            comter.databuffer = []
-
+                    comter.databuffer = []
                     comter.Ischara2 = False
                     comter.Ischara3 = False
                     comter.IsSendData =False
                     comter.IsChangeUUID=False
-                # myUart.flushOutput()
-                # myUart.flushInput()
-                time.sleep(.05)
+                myUart.flushOutput()
+                myUart.flushInput()
+                time.sleep(.01)
 
-
+manager.loop_stop()

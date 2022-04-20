@@ -9,8 +9,8 @@ class Serialcom(object):
     def __init__(self):
         self.Uart = serial.Serial(  # set parameters, in fact use your own :-)
 
-            # port='/dev/ttyUSB0',
-            port='COM12',
+            port='/dev/ttyUSB0',
+            # port='COM11',
             baudrate=115200,
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,
